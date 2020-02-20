@@ -1,5 +1,5 @@
 /*General*/
-let score, roundScore, activePlayer, gamePlaying;
+let score, roundScore, activePlayer, gamePlaying, maxScore;
 let diceDOM = document.querySelector('#dice');
 
 newGame();
@@ -31,9 +31,14 @@ document.querySelector('#btn-hold').addEventListener('click', function () {
 
         //Update the UI
         document.querySelector('#score-' + activePlayer).textContent = score[activePlayer];
+        if (document.querySelector('#max-score').value) {
+            maxScore = document.querySelector('#max-score').value;
+        } else {
+            maxScore = 100;
+        }
 
         //Check if player won the game
-        if (score[activePlayer] >= 20) {
+        if (score[activePlayer] >= maxScore) {
             document.querySelector('#name-' + activePlayer).textContent = 'Winner';
             diceDOM.style.display = 'none';
             document.querySelector('#player-' + activePlayer + '-panel').classList.add('winner');
@@ -45,6 +50,10 @@ document.querySelector('#btn-hold').addEventListener('click', function () {
     }
 });
 
+/*New game*/
+document.querySelector('#btn-new').addEventListener('click', newGame);
+
+/*Functions*/
 function nextPlayer() {
     activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
     roundScore = 0;
@@ -58,14 +67,12 @@ function nextPlayer() {
     diceDOM.style.display = 'none';
 }
 
-/*New game*/
-document.querySelector('#btn-new').addEventListener('click', newGame);
-
 function newGame() {
     score = [0, 0];
     roundScore = 0;
     activePlayer = 0;
     gamePlaying = true;
+    maxScore = 0;
 
     document.querySelector('#dice').style.display = 'none';
 
@@ -81,3 +88,5 @@ function newGame() {
     document.querySelector('#player-1-panel').classList.remove('active');
     document.querySelector('#player-0-panel').classList.add('active');
 }
+
+
